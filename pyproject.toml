@@ -1,0 +1,8 @@
+[tool.coverage.run]
+source = ["anakonda"]
+command_line = "-m pytest"
+branch = true
+
+[tool.pytest.ini_options]
+testpaths = ["anakonda"]
+addopts = "-v"
