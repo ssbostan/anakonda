@@ -24,4 +24,4 @@ class Config:
 
     TIMEZONE = environ.get("ANAKONDA_API_TIMEZONE", "Europe/London")
 
-    AVAILABLE_RUNTIMES = ["docker"]
+    AVAILABLE_RUNTIMES = ["docker", "kubernetes"]
