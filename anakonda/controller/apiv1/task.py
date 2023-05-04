@@ -28,7 +28,7 @@ class TaskController:
         except:
             return jsonify(status=500, code=103)
         try:
-            task = Task.query.get(task_id)
+            task = db.session.get(Task, task_id)
         except:
             return jsonify(status=500, code=106)
         if task is None:
@@ -93,7 +93,7 @@ class TaskController:
             if request_data["runtime"] not in Config.AVAILABLE_RUNTIMES:
                 return jsonify(status=400, code=108)
         try:
-            task = Task.query.get(task_id)
+            task = db.session.get(Task, task_id)
         except:
             return jsonify(status=500, code=106)
         if task is None:
@@ -122,7 +122,7 @@ class TaskController:
     @json_required
     def delete_task(task_id):
         try:
-            task = Task.query.get(task_id)
+            task = db.session.get(Task, task_id)
         except:
             return jsonify(status=500, code=106)
         if task is None:
