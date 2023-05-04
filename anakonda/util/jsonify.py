@@ -18,8 +18,7 @@ def jsonify(state={}, metadata={}, status=200, code=100, headers={}):
     resource = {}
     resource["result"] = state
     resource["metadata"] = metadata
-    resource["status"] = {
-        "code": code,
-        "message": STATUS_MESSAGES[code] if Config.DEBUG else None,
-    }
+    resource["status"] = {"code": code}
+    if Config.DEBUG is True:
+        resource["status"]["message"] = STATUS_MESSAGES[code]
     return resource, status, headers
