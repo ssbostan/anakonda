@@ -9,12 +9,7 @@ services:
     expose:
       - 8080/tcp
     networks:
-      - edge
       - db
-# Application goes behind external load balancer.
-# Enable port to debug locally.
-#    ports:
-#      - 8080:8080/tcp
 
   mysql:
     image: mysql:8
@@ -28,8 +23,6 @@ services:
       - mysqldata:/var/lib/mysql
 
 networks:
-  edge:
-    external: true
   db:
 
 volumes:

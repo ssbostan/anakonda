@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  anakonda:
+    user: root
+    entrypoint: ["sh", "-c", "scripts/test.sh"]
+    environment:
+      - "ANAKONDA_API_DATABASE_URI=mysql+pymysql://anakonda:anakonda@mysql:3306/test"
+      - "ANAKONDA_API_ENV=test"
+      - "ANAKONDA_API_DEBUG=1"
+
+  mysql:
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+      - "MYSQL_DATABASE=test"
+      - "MYSQL_USER=anakonda"
+      - "MYSQL_PASSWORD=anakonda"
