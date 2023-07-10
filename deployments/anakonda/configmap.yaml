@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: anakonda-config
+  labels:
+    app.kubernetes.io/name: anakonda
+    app.kubernetes.io/part-of: anakonda
+    app.kubernetes.io/project: anakonda
+    app.kubernetes.io/env: test
+data:
+  ANAKONDA_API_DEBUG: "1"

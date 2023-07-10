@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anakonda
+  labels:
+    app.kubernetes.io/name: anakonda
+    app.kubernetes.io/part-of: anakonda
+    app.kubernetes.io/project: anakonda
+    app.kubernetes.io/env: test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: anakonda
+      app.kubernetes.io/part-of: anakonda
+      app.kubernetes.io/project: anakonda
+      app.kubernetes.io/env: test
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: anakonda
+        app.kubernetes.io/part-of: anakonda
+        app.kubernetes.io/project: anakonda
+        app.kubernetes.io/env: test
+    spec:
+      containers:
+        - name: anakonda
+          image: ssbostan/anakonda:latest
+          envFrom:
+            - configMapRef:
+                name: anakonda-config
+            - secretRef:
+                name: anakonda-secret
+          ports:
+            - name: http
+              containerPort: 8080
+          livenessProbe:
+            exec:
+              command: ["kill", "-0", "1"]
+          readinessProbe:
+            tcpSocket:
+              port: 8080

@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  labels:
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/part-of: anakonda
+    app.kubernetes.io/project: anakonda
+    app.kubernetes.io/env: test
+spec:
+  replicas: 1
+  serviceName: mysql
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mysql
+      app.kubernetes.io/part-of: anakonda
+      app.kubernetes.io/project: anakonda
+      app.kubernetes.io/env: test
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mysql
+        app.kubernetes.io/part-of: anakonda
+        app.kubernetes.io/project: anakonda
+        app.kubernetes.io/env: test
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8
+          envFrom:
+            - secretRef:
+                name: mysql-secret
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          ports:
+            - name: mysql
+              containerPort: 3306
+          livenessProbe:
+            exec:
+              command: ["kill", "-0", "1"]
+          readinessProbe:
+            tcpSocket:
+              port: 3306
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+        labels:
+          app.kubernetes.io/name: mysql
+          app.kubernetes.io/part-of: anakonda
+          app.kubernetes.io/project: anakonda
+          app.kubernetes.io/env: test
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
